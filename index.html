@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soneri Bank Demo</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f6f8;
+      color: #222;
+    }
+
+    .header {
+      background: #8b0000;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 24px;
+    }
+
+    .demo {
+      font-size: 12px;
+      margin-top: 5px;
+      opacity: 0.8;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 25px auto;
+      padding: 15px;
+    }
+
+    .balance {
+      background: #8b0000;
+      color: white;
+      padding: 25px;
+      border-radius: 15px;
+      margin-bottom: 20px;
+    }
+
+    .balance p {
+      opacity: 0.8;
+      margin-bottom: 8px;
+    }
+
+    .balance h2 {
+      font-size: 32px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    }
+
+    .card h3 {
+      margin-bottom: 15px;
+    }
+
+    button {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 8px;
+      background: #8b0000;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .transaction {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .credit {
+      color: green;
+    }
+
+    .debit {
+      color: #d00000;
+    }
+
+    .footer {
+      text-align: center;
+      color: #777;
+      font-size: 12px;
+      margin: 25px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <h1>Soneri Bank</h1>
+    <div class="demo">DEMO / PRACTICE APP</div>
+  </div>
+
+  <div class="container">
+
+    <div class="balance">
+      <p>Available Balance</p>
+      <h2>PKR 125,500</h2>
+    </div>
+
+    <div class="card">
+      <h3>Quick Actions</h3>
+      <button onclick="transferMoney()">Transfer Money</button>
+    </div>
+
+    <div class="card">
+      <h3>Recent Transactions</h3>
+
+      <div class="transaction">
+        <span>Salary</span>
+        <span class="credit">+ PKR 50,000</span>
+      </div>
+
+      <div class="transaction">
+        <span>Electricity Bill</span>
+        <span class="debit">- PKR 8,500</span>
+      </div>
+
+      <div class="transaction">
+        <span>Online Shopping</span>
+        <span class="debit">- PKR 3,200</span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="footer">
+    This is a fictional demo application. No real banking transactions are performed.
+  </div>
+
+  <script>
+    function transferMoney() {
+      alert("Demo transfer feature - no real transaction will be made.");
+    }
+  </script>
+
+</body>
+</html>
