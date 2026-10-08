@@ -1,164 +1,443 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Soneri Bank Demo</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Banking Demo</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#f3f5f7;color:#222}
+.hidden{display:none!important}
 
-    body {
-      background: #f4f6f8;
-      color: #222;
-    }
+.header{
+background:#8b0000;color:white;padding:20px;text-align:center
+}
+.header h1{font-size:25px}
+.demo{font-size:11px;margin-top:5px;opacity:.8}
 
-    .header {
-      background: #8b0000;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
+.container{max-width:520px;margin:auto;padding:18px}
 
-    .header h1 {
-      font-size: 24px;
-    }
+.card{
+background:white;border-radius:16px;padding:20px;
+margin-bottom:16px;box-shadow:0 3px 12px rgba(0,0,0,.08)
+}
 
-    .demo {
-      font-size: 12px;
-      margin-top: 5px;
-      opacity: 0.8;
-    }
+.login{
+margin-top:50px
+}
 
-    .container {
-      max-width: 500px;
-      margin: 25px auto;
-      padding: 15px;
-    }
+input{
+width:100%;padding:14px;margin:8px 0 14px;
+border:1px solid #ddd;border-radius:9px;font-size:16px
+}
 
-    .balance {
-      background: #8b0000;
-      color: white;
-      padding: 25px;
-      border-radius: 15px;
-      margin-bottom: 20px;
-    }
+button{
+width:100%;padding:14px;border:0;border-radius:9px;
+background:#8b0000;color:white;font-size:16px;
+cursor:pointer;margin-top:8px
+}
 
-    .balance p {
-      opacity: 0.8;
-      margin-bottom: 8px;
-    }
+button.secondary{background:#555}
+button.light{background:#eee;color:#333}
 
-    .balance h2 {
-      font-size: 32px;
-    }
+.error{color:#c00000;margin-top:10px;text-align:center}
 
-    .card {
-      background: white;
-      padding: 20px;
-      border-radius: 15px;
-      margin-bottom: 15px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-    }
+.balance{
+background:#8b0000;color:white;border-radius:18px;
+padding:25px;margin-bottom:18px
+}
+.balance small{opacity:.8}
+.balance h2{font-size:31px;margin-top:8px}
 
-    .card h3 {
-      margin-bottom: 15px;
-    }
+.grid{
+display:grid;grid-template-columns:1fr 1fr;gap:12px
+}
 
-    button {
-      width: 100%;
-      padding: 13px;
-      border: none;
-      border-radius: 8px;
-      background: #8b0000;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-    }
+.action{
+background:white;border:0;color:#222;
+box-shadow:0 2px 8px rgba(0,0,0,.08)
+}
 
-    button:hover {
-      opacity: 0.9;
-    }
+.action span{display:block;font-size:25px;margin-bottom:6px}
 
-    .transaction {
-      display: flex;
-      justify-content: space-between;
-      padding: 12px 0;
-      border-bottom: 1px solid #eee;
-    }
+.transaction{
+display:flex;justify-content:space-between;
+padding:13px 0;border-bottom:1px solid #eee
+}
 
-    .credit {
-      color: green;
-    }
+.credit{color:green}
+.debit{color:#c00000}
 
-    .debit {
-      color: #d00000;
-    }
+.topbar{
+display:flex;justify-content:space-between;align-items:center;
+background:#8b0000;color:white;padding:16px
+}
 
-    .footer {
-      text-align: center;
-      color: #777;
-      font-size: 12px;
-      margin: 25px;
-    }
-  </style>
+.topbar button{
+width:auto;background:white;color:#8b0000;
+padding:8px 12px;margin:0
+}
+
+.qrbox{
+border:2px dashed #aaa;padding:40px 20px;
+text-align:center;border-radius:12px;margin:15px 0
+}
+
+.notice{
+font-size:12px;color:#777;text-align:center;margin-top:15px
+}
+</style>
 </head>
 
 <body>
 
-  <div class="header">
-    <h1>Soneri Bank</h1>
-    <div class="demo">DEMO / PRACTICE APP</div>
-  </div>
+<!-- LOGIN -->
+<div id="loginPage">
 
-  <div class="container">
+<div class="header">
+<h1>Banking Demo</h1>
+<div class="demo">FICTIONAL / PRACTICE APP</div>
+</div>
 
-    <div class="balance">
-      <p>Available Balance</p>
-      <h2>PKR 125,500</h2>
-    </div>
+<div class="container">
+<div class="card login">
 
-    <div class="card">
-      <h3>Quick Actions</h3>
-      <button onclick="transferMoney()">Transfer Money</button>
-    </div>
+<h2>Welcome</h2>
+<p style="margin:10px 0 20px;color:#777">
+Demo Login
+</p>
 
-    <div class="card">
-      <h3>Recent Transactions</h3>
+<label>Username / Mobile Number</label>
+<input id="username" type="text" placeholder="Enter username">
 
-      <div class="transaction">
-        <span>Salary</span>
-        <span class="credit">+ PKR 50,000</span>
-      </div>
+<label>PIN</label>
+<input id="pin" type="password" placeholder="Enter demo PIN">
 
-      <div class="transaction">
-        <span>Electricity Bill</span>
-        <span class="debit">- PKR 8,500</span>
-      </div>
+<button class="light" onclick="togglePin()">👁️ Show / Hide PIN</button>
 
-      <div class="transaction">
-        <span>Online Shopping</span>
-        <span class="debit">- PKR 3,200</span>
-      </div>
+<button onclick="login()">Login</button>
 
-    </div>
+<div id="loginError" class="error"></div>
 
-  </div>
+<div class="notice">
+Demo login only. No real banking credentials are required.
+</div>
 
-  <div class="footer">
-    This is a fictional demo application. No real banking transactions are performed.
-  </div>
+</div>
+</div>
+</div>
 
-  <script>
-    function transferMoney() {
-      alert("Demo transfer feature - no real transaction will be made.");
-    }
-  </script>
+
+<!-- APP -->
+<div id="appPage" class="hidden">
+
+<div class="topbar">
+<div>
+<strong>Banking Demo</strong><br>
+<small>Demo Account</small>
+</div>
+
+<button onclick="logout()">Logout</button>
+</div>
+
+<div class="container">
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+
+<div class="balance">
+<small>Available Balance</small>
+<h2 id="balance">PKR 125,500</h2>
+</div>
+
+<div class="grid">
+
+<button class="action" onclick="showSection('transfer')">
+<span>💸</span>
+Transfer
+</button>
+
+<button class="action" onclick="showSection('transactions')">
+<span>📜</span>
+Transactions
+</button>
+
+<button class="action" onclick="showSection('qr')">
+<span>📷</span>
+QR Scanner
+</button>
+
+<button class="action" onclick="showSection('profile')">
+<span>👤</span>
+Profile
+</button>
+
+</div>
+
+<div class="card" style="margin-top:18px">
+<h3>Recent Transactions</h3>
+
+<div class="transaction">
+<span>Salary</span>
+<span class="credit">+ PKR 50,000</span>
+</div>
+
+<div class="transaction">
+<span>Electricity Bill</span>
+<span class="debit">- PKR 8,500</span>
+</div>
+
+<div class="transaction">
+<span>Online Shopping</span>
+<span class="debit">- PKR 3,200</span>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- TRANSFER -->
+<div id="transfer" class="hidden">
+
+<div class="card">
+<h2>💸 Demo Transfer</h2>
+
+<input id="receiver" placeholder="Receiver name / account">
+
+<input id="amount" type="number" placeholder="Amount (PKR)">
+
+<button onclick="makeTransfer()">Transfer Money</button>
+
+<button class="secondary" onclick="showSection('dashboard')">
+Back
+</button>
+
+<p id="transferMessage" style="margin-top:15px;text-align:center"></p>
+</div>
+
+</div>
+
+
+<!-- TRANSACTIONS -->
+<div id="transactions" class="hidden">
+
+<div class="card">
+
+<h2>📜 Transaction History</h2>
+
+<div class="transaction">
+<span>Salary</span>
+<span class="credit">+50,000</span>
+</div>
+
+<div class="transaction">
+<span>Electricity Bill</span>
+<span class="debit">-8,500</span>
+</div>
+
+<div class="transaction">
+<span>Online Shopping</span>
+<span class="debit">-3,200</span>
+</div>
+
+<div id="newTransactions"></div>
+
+<button class="secondary" onclick="showSection('dashboard')">
+Back
+</button>
+
+</div>
+
+</div>
+
+
+<!-- QR -->
+<div id="qr" class="hidden">
+
+<div class="card">
+
+<h2>📷 Demo QR Scanner</h2>
+
+<div class="qrbox">
+<p style="font-size:50px">▦</p>
+<p style="margin-top:10px">
+QR Scanner Demo
+</p>
+</div>
+
+<button onclick="scanQR()">Scan QR</button>
+
+<p id="qrResult" style="text-align:center;margin-top:15px"></p>
+
+<button class="secondary" onclick="showSection('dashboard')">
+Back
+</button>
+
+</div>
+
+</div>
+
+
+<!-- PROFILE -->
+<div id="profile" class="hidden">
+
+<div class="card">
+
+<h2>👤 Profile</h2>
+
+<p style="margin-top:20px">
+<strong>Username:</strong>
+<span id="profileName"></span>
+</p>
+
+<p style="margin-top:15px">
+<strong>Account:</strong> DEMO-001
+</p>
+
+<p style="margin-top:15px">
+<strong>Status:</strong> Active Demo Account
+</p>
+
+<button class="secondary" onclick="showSection('dashboard')">
+Back
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="notice">
+This is a fictional banking demonstration. No real transactions or banking services are provided.
+</div>
+
+</div>
+
+
+<script>
+
+let currentBalance = 125500;
+
+function togglePin(){
+
+const pin=document.getElementById("pin");
+
+if(pin.type==="password"){
+pin.type="text";
+}else{
+pin.type="password";
+}
+
+}
+
+function login(){
+
+const username=document.getElementById("username").value.trim();
+const pin=document.getElementById("pin").value.trim();
+
+if(username==="" || pin===""){
+document.getElementById("loginError").innerText=
+"Please enter username and demo PIN.";
+return;
+}
+
+document.getElementById("loginPage").classList.add("hidden");
+document.getElementById("appPage").classList.remove("hidden");
+
+document.getElementById("profileName").innerText=username;
+
+}
+
+function logout(){
+
+document.getElementById("appPage").classList.add("hidden");
+document.getElementById("loginPage").classList.remove("hidden");
+
+document.getElementById("username").value="";
+document.getElementById("pin").value="";
+document.getElementById("loginError").innerText="";
+
+showSection("dashboard");
+
+}
+
+function showSection(section){
+
+const sections=[
+"dashboard",
+"transfer",
+"transactions",
+"qr",
+"profile"
+];
+
+sections.forEach(function(id){
+document.getElementById(id).classList.add("hidden");
+});
+
+document.getElementById(section).classList.remove("hidden");
+
+}
+
+function makeTransfer(){
+
+const receiver=document.getElementById("receiver").value.trim();
+const amount=Number(document.getElementById("amount").value);
+const message=document.getElementById("transferMessage");
+
+if(receiver==="" || amount<=0){
+
+message.style.color="#c00000";
+message.innerText="Please enter receiver and amount.";
+return;
+
+}
+
+if(amount>currentBalance){
+
+message.style.color="#c00000";
+message.innerText="Insufficient demo balance.";
+return;
+
+}
+
+currentBalance-=amount;
+
+document.getElementById("balance").innerText=
+"PKR "+currentBalance.toLocaleString();
+
+message.style.color="green";
+message.innerText=
+"Demo transfer successful to "+receiver+" — PKR "+amount.toLocaleString();
+
+const newTransaction=document.createElement("div");
+
+newTransaction.className="transaction";
+
+newTransaction.innerHTML=
+"<span>"+receiver+"</span>"+
+"<span class='debit'>- PKR "+
+amount.toLocaleString()+"</span>";
+
+document.getElementById("newTransactions")
+.prepend(newTransaction);
+
+document.getElementById("receiver").value="";
+document.getElementById("amount").value="";
+
+}
+
+function scanQR(){
+
+document.getElementById("qrResult").innerText=
+"Demo QR scanned successfully. No real payment was made.";
+
+}
+
+</script>
 
 </body>
 </html>
