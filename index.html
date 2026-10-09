@@ -95,6 +95,21 @@ const pur=pick(q,['purpose','note','reference','description','tn'])||purpose;
 if(!n&&!b&&!a&&!am){if(/^[A-Za-z0-9-]{6,34}$/.test(text)){q.account=text}else{return false}}
 showPage('transfer');setTimeout(()=>{const recipient=document.getElementById('recipient'),bankEl=document.getElementById('bank'),accountEl=document.getElementById('account'),amountEl=document.getElementById('amount'),purposeEl=document.getElementById('purpose');if(recipient&&n)recipient.value=n;if(bankEl&&b){const match=banks.find(x=>x.toLowerCase()===b.toLowerCase()||x.toLowerCase().includes(b.toLowerCase())||b.toLowerCase().includes(x.toLowerCase()));if(match)bankEl.value=match}if(accountEl&&a){accountEl.value=a;lookupSampleRecipient()}else if(accountEl&&q.account){accountEl.value=q.account;lookupSampleRecipient()}if(amountEl&&am&&Number(am)>0)amountEl.value=Number(am);if(purposeEl&&pur)purposeEl.value=pur;showToast('QR details filled where available. Check recipient and amount before reviewing.');},0);return Boolean(n||b||a||am||q.account)}
 function parseQR(){const input=document.getElementById('qrText');if(!input||!input.value.trim()){showToast('Scan a QR code or paste its text first.');return}ring();if(!fillFromQR(input.value)){showToast('This QR does not contain recognizable recipient details. Enter them manually.')}}
-// Always display login on page load; never hide the login form because of a saved profile.
-document.getElementById('username').value=state.user||'';updateBell();
+// Show profile creation first for a new browser; show login only when a local profile exists.
+if(!state.user){
+  creating=true;
+  document.getElementById('loginTitle').textContent='Create your profile';
+  document.getElementById('loginSub').textContent='First, create a local demo profile and choose a 4–8 digit PIN.';
+  document.getElementById('loginSubmit').textContent='Create profile';
+  document.getElementById('switchAuth').textContent='Already have a profile? Login';
+  document.getElementById('username').value='';
+}else{
+  creating=false;
+  document.getElementById('loginTitle').textContent='Welcome back';
+  document.getElementById('loginSub').textContent='Sign in to your banking dashboard';
+  document.getElementById('loginSubmit').textContent='Login securely';
+  document.getElementById('switchAuth').textContent='New here? Create local profile';
+  document.getElementById('username').value=state.user;
+}
+updateBell();
 </script></body></html>
