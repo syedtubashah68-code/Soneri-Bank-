@@ -1,443 +1,187 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Banking Demo</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DIGITAL BANK SAM</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
-body{background:#f3f5f7;color:#222}
-.hidden{display:none!important}
-
-.header{
-background:#8b0000;color:white;padding:20px;text-align:center
-}
-.header h1{font-size:25px}
-.demo{font-size:11px;margin-top:5px;opacity:.8}
-
-.container{max-width:520px;margin:auto;padding:18px}
-
-.card{
-background:white;border-radius:16px;padding:20px;
-margin-bottom:16px;box-shadow:0 3px 12px rgba(0,0,0,.08)
-}
-
-.login{
-margin-top:50px
-}
-
-input{
-width:100%;padding:14px;margin:8px 0 14px;
-border:1px solid #ddd;border-radius:9px;font-size:16px
-}
-
-button{
-width:100%;padding:14px;border:0;border-radius:9px;
-background:#8b0000;color:white;font-size:16px;
-cursor:pointer;margin-top:8px
-}
-
-button.secondary{background:#555}
-button.light{background:#eee;color:#333}
-
-.error{color:#c00000;margin-top:10px;text-align:center}
-
-.balance{
-background:#8b0000;color:white;border-radius:18px;
-padding:25px;margin-bottom:18px
-}
-.balance small{opacity:.8}
-.balance h2{font-size:31px;margin-top:8px}
-
-.grid{
-display:grid;grid-template-columns:1fr 1fr;gap:12px
-}
-
-.action{
-background:white;border:0;color:#222;
-box-shadow:0 2px 8px rgba(0,0,0,.08)
-}
-
-.action span{display:block;font-size:25px;margin-bottom:6px}
-
-.transaction{
-display:flex;justify-content:space-between;
-padding:13px 0;border-bottom:1px solid #eee
-}
-
-.credit{color:green}
-.debit{color:#c00000}
-
-.topbar{
-display:flex;justify-content:space-between;align-items:center;
-background:#8b0000;color:white;padding:16px
-}
-
-.topbar button{
-width:auto;background:white;color:#8b0000;
-padding:8px 12px;margin:0
-}
-
-.qrbox{
-border:2px dashed #aaa;padding:40px 20px;
-text-align:center;border-radius:12px;margin:15px 0
-}
-
-.notice{
-font-size:12px;color:#777;text-align:center;margin-top:15px
-}
+:root{--wine:#741d35;--gold:#d9b56d;--bg:#f5f2f3}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:#292126}
+header{background:linear-gradient(135deg,#4c1024,#841f3d);color:white;padding:24px 18px;text-align:center}
+.brand{color:var(--gold);font-weight:bold;letter-spacing:2px;font-size:20px}
+main{max-width:500px;margin:22px auto;padding:0 14px}
+.card{background:white;padding:20px;border-radius:18px;margin-bottom:16px;box-shadow:0 5px 20px #31101a12}
+h2{margin-top:0;color:var(--wine)}
+input,select{display:block;width:100%;padding:13px;margin:10px 0;border:1px solid #ddd;border-radius:9px;background:white}
+button{border:0;border-radius:9px;padding:13px 16px;background:var(--wine);color:white;font-weight:bold;cursor:pointer}
+button.secondary{background:#f1e4e7;color:var(--wine)}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.actions button{min-height:55px}
+.balance{background:linear-gradient(135deg,#4c1024,#84233f);color:white;padding:22px;border-radius:16px}
+.balance strong{display:block;font-size:28px;margin-top:8px}
+.small{font-size:12px;color:#766b70}
+.hidden{display:none}
+.entry{padding:12px 0;border-bottom:1px solid #eee}
+.receipt{border:1px dashed #c7b8bd;padding:16px;border-radius:12px}
+footer{text-align:center;padding:20px;color:#75666c;font-size:12px}
 </style>
 </head>
-
 <body>
-
-<!-- LOGIN -->
-<div id="loginPage">
-
-<div class="header">
-<h1>Banking Demo</h1>
-<div class="demo">FICTIONAL / PRACTICE APP</div>
-</div>
-
-<div class="container">
-<div class="card login">
-
-<h2>Welcome</h2>
-<p style="margin:10px 0 20px;color:#777">
-Demo Login
-</p>
-
-<label>Username / Mobile Number</label>
-<input id="username" type="text" placeholder="Enter username">
-
-<label>PIN</label>
-<input id="pin" type="password" placeholder="Enter demo PIN">
-
-<button class="light" onclick="togglePin()">👁️ Show / Hide PIN</button>
-
-<button onclick="login()">Login</button>
-
-<div id="loginError" class="error"></div>
-
-<div class="notice">
-Demo login only. No real banking credentials are required.
-</div>
-
-</div>
-</div>
-</div>
-
-
-<!-- APP -->
-<div id="appPage" class="hidden">
-
-<div class="topbar">
-<div>
-<strong>Banking Demo</strong><br>
-<small>Demo Account</small>
-</div>
-
-<button onclick="logout()">Logout</button>
-</div>
-
-<div class="container">
-
-<!-- DASHBOARD -->
-<div id="dashboard">
-
-<div class="balance">
-<small>Available Balance</small>
-<h2 id="balance">PKR 125,500</h2>
-</div>
-
-<div class="grid">
-
-<button class="action" onclick="showSection('transfer')">
-<span>💸</span>
-Transfer
-</button>
-
-<button class="action" onclick="showSection('transactions')">
-<span>📜</span>
-Transactions
-</button>
-
-<button class="action" onclick="showSection('qr')">
-<span>📷</span>
-QR Scanner
-</button>
-
-<button class="action" onclick="showSection('profile')">
-<span>👤</span>
-Profile
-</button>
-
-</div>
-
-<div class="card" style="margin-top:18px">
-<h3>Recent Transactions</h3>
-
-<div class="transaction">
-<span>Salary</span>
-<span class="credit">+ PKR 50,000</span>
-</div>
-
-<div class="transaction">
-<span>Electricity Bill</span>
-<span class="debit">- PKR 8,500</span>
-</div>
-
-<div class="transaction">
-<span>Online Shopping</span>
-<span class="debit">- PKR 3,200</span>
-</div>
-
-</div>
-
-</div>
-
-
-<!-- TRANSFER -->
-<div id="transfer" class="hidden">
-
-<div class="card">
-<h2>💸 Demo Transfer</h2>
-
-<input id="receiver" placeholder="Receiver name / account">
-
-<input id="amount" type="number" placeholder="Amount (PKR)">
-
-<button onclick="makeTransfer()">Transfer Money</button>
-
-<button class="secondary" onclick="showSection('dashboard')">
-Back
-</button>
-
-<p id="transferMessage" style="margin-top:15px;text-align:center"></p>
-</div>
-
-</div>
-
-
-<!-- TRANSACTIONS -->
-<div id="transactions" class="hidden">
-
-<div class="card">
-
-<h2>📜 Transaction History</h2>
-
-<div class="transaction">
-<span>Salary</span>
-<span class="credit">+50,000</span>
-</div>
-
-<div class="transaction">
-<span>Electricity Bill</span>
-<span class="debit">-8,500</span>
-</div>
-
-<div class="transaction">
-<span>Online Shopping</span>
-<span class="debit">-3,200</span>
-</div>
-
-<div id="newTransactions"></div>
-
-<button class="secondary" onclick="showSection('dashboard')">
-Back
-</button>
-
-</div>
-
-</div>
-
-
-<!-- QR -->
-<div id="qr" class="hidden">
-
-<div class="card">
-
-<h2>📷 Demo QR Scanner</h2>
-
-<div class="qrbox">
-<p style="font-size:50px">▦</p>
-<p style="margin-top:10px">
-QR Scanner Demo
-</p>
-</div>
-
-<button onclick="scanQR()">Scan QR</button>
-
-<p id="qrResult" style="text-align:center;margin-top:15px"></p>
-
-<button class="secondary" onclick="showSection('dashboard')">
-Back
-</button>
-
-</div>
-
-</div>
-
-
-<!-- PROFILE -->
-<div id="profile" class="hidden">
-
-<div class="card">
-
-<h2>👤 Profile</h2>
-
-<p style="margin-top:20px">
-<strong>Username:</strong>
-<span id="profileName"></span>
-</p>
-
-<p style="margin-top:15px">
-<strong>Account:</strong> DEMO-001
-</p>
-
-<p style="margin-top:15px">
-<strong>Status:</strong> Active Demo Account
-</p>
-
-<button class="secondary" onclick="showSection('dashboard')">
-Back
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="notice">
-This is a fictional banking demonstration. No real transactions or banking services are provided.
-</div>
-
-</div>
-
+<header>
+  <div class="brand">DIGITAL BANK SAM</div>
+  <p>Digital Banking Interface</p>
+</header>
+<main>
+  <section id="login" class="card">
+    <h2>Welcome Back</h2>
+    <p>Sign in to your local practice account.</p>
+    <input id="username" placeholder="Your name" value="Shani Khan">
+    <input id="pin" type="password" placeholder="Create or enter PIN" maxlength="6">
+    <button onclick="login()">Login</button>
+    <p class="small">Independent practice interface. No real banking transactions.</p>
+  </section>
+
+  <section id="dashboard" class="hidden">
+    <div class="card">
+      <h2 id="welcome">Welcome</h2>
+      <div class="balance">
+        Available Balance
+        <strong id="balance">PKR 50,000.00</strong>
+        <span>Practice account</span>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Services</h2>
+      <div class="actions">
+        <button onclick="showPage('transfer')">Transfer Funds</button>
+        <button onclick="showPage('bill')">Bill Payment</button>
+        <button class="secondary" onclick="showPage('history')">Transaction History</button>
+        <button class="secondary" onclick="showPage('qr')">Scan QR</button>
+      </div>
+    </div>
+    <button class="secondary" onclick="logout()">Log out</button>
+  </section>
+
+  <section id="transfer" class="card hidden">
+    <h2>Transfer Funds</h2>
+    <input id="recipient" placeholder="Recipient full name">
+    <select id="bank">
+      <option>Soneri Bank</option><option>National Bank of Pakistan</option>
+      <option>Habib Bank Limited (HBL)</option><option>United Bank Limited (UBL)</option>
+      <option>MCB Bank</option><option>Allied Bank</option><option>Bank Alfalah</option>
+      <option>Meezan Bank</option><option>Easypaisa</option><option>JazzCash</option>
+      <option>Other Bank</option>
+    </select>
+    <input id="account" placeholder="Account / IBAN / wallet number">
+    <input id="amount" type="number" min="1" placeholder="Amount (PKR)">
+    <input id="purpose" placeholder="Purpose (optional)">
+    <button onclick="transfer()">Review transfer</button>
+    <button class="secondary" onclick="showPage('dashboard')">Back</button>
+  </section>
+
+  <section id="bill" class="card hidden">
+    <h2>Bill Payment</h2>
+    <div class="brand">DIGITAL BANK SAM</div>
+    <p>Amount details</p>
+    <select id="billtype"><option>Utility bill</option><option>Internet</option><option>Mobile</option><option>Other</option></select>
+    <input id="reference" placeholder="Reference / note (optional)">
+    <input id="billamount" type="number" min="1" placeholder="Amount (PKR)">
+    <button onclick="billPayment()">Continue</button>
+    <button class="secondary" onclick="showPage('dashboard')">Back</button>
+  </section>
+
+  <section id="qr" class="card hidden">
+    <h2>QR Details</h2>
+    <p>Paste QR payment text here. This practice app cannot verify real bank accounts.</p>
+    <textarea id="qrtext" style="width:100%;min-height:100px;padding:12px" placeholder="Paste QR text or account details"></textarea>
+    <button onclick="readQR()">Read QR details</button>
+    <button class="secondary" onclick="showPage('transfer')">Continue to transfer form</button>
+    <button class="secondary" onclick="showPage('dashboard')">Back</button>
+  </section>
+
+  <section id="history" class="card hidden">
+    <h2>Transaction History</h2>
+    <div id="historylist">No transactions yet.</div>
+    <button class="secondary" onclick="showPage('dashboard')">Back</button>
+  </section>
+
+  <section id="receipt" class="card hidden">
+    <h2>Transaction Receipt</h2>
+    <div class="receipt" id="receiptcontent"></div>
+    <p class="small">Practice receipt — not proof of a real transfer.</p>
+    <button onclick="window.print()">Print / Save PDF</button>
+    <button class="secondary" onclick="showPage('dashboard')">Dashboard</button>
+  </section>
+</main>
+<footer>DIGITAL BANK SAM · Independent practice interface</footer>
 
 <script>
-
-let currentBalance = 125500;
-
-function togglePin(){
-
-const pin=document.getElementById("pin");
-
-if(pin.type==="password"){
-pin.type="text";
-}else{
-pin.type="password";
-}
-
-}
-
+let balance=50000, transactions=[];
 function login(){
-
-const username=document.getElementById("username").value.trim();
-const pin=document.getElementById("pin").value.trim();
-
-if(username==="" || pin===""){
-document.getElementById("loginError").innerText=
-"Please enter username and demo PIN.";
-return;
+  const name=document.getElementById('username').value.trim();
+  if(!name){alert('Please enter your name');return}
+  document.getElementById('welcome').textContent='Welcome, '+name;
+  showPage('dashboard');
 }
-
-document.getElementById("loginPage").classList.add("hidden");
-document.getElementById("appPage").classList.remove("hidden");
-
-document.getElementById("profileName").innerText=username;
-
+function logout(){showPage('login')}
+function showPage(id){
+  ['login','dashboard','transfer','bill','qr','history','receipt'].forEach(p=>
+    document.getElementById(p).classList.toggle('hidden',p!==id));
+  if(id==='history')renderHistory();
+  updateBalance();
 }
-
-function logout(){
-
-document.getElementById("appPage").classList.add("hidden");
-document.getElementById("loginPage").classList.remove("hidden");
-
-document.getElementById("username").value="";
-document.getElementById("pin").value="";
-document.getElementById("loginError").innerText="";
-
-showSection("dashboard");
-
+function updateBalance(){document.getElementById('balance').textContent='PKR '+balance.toLocaleString('en-PK',{minimumFractionDigits:2})}
+function addTransaction(type,amount,details){
+  const t={id:String(Date.now()).slice(-10),date:new Date().toLocaleString(),type,amount,details};
+  transactions.unshift(t);return t;
 }
-
-function showSection(section){
-
-const sections=[
-"dashboard",
-"transfer",
-"transactions",
-"qr",
-"profile"
-];
-
-sections.forEach(function(id){
-document.getElementById(id).classList.add("hidden");
-});
-
-document.getElementById(section).classList.remove("hidden");
-
+function transfer(){
+  const name=document.getElementById('recipient').value.trim();
+  const account=document.getElementById('account').value.trim();
+  const bank=document.getElementById('bank').value;
+  const amount=Number(document.getElementById('amount').value);
+  if(!name||!account||!Number.isFinite(amount)||amount<=0){alert('Enter recipient, account and a valid amount');return}
+  if(amount>balance){alert('Insufficient practice balance');return}
+  if(!confirm('Review practice transfer of PKR '+amount.toLocaleString()+' to '+name+'?'))return;
+  balance-=amount;
+  const t=addTransaction('Transfer',amount,{name,account,bank});
+  showReceipt(t); 
 }
-
-function makeTransfer(){
-
-const receiver=document.getElementById("receiver").value.trim();
-const amount=Number(document.getElementById("amount").value);
-const message=document.getElementById("transferMessage");
-
-if(receiver==="" || amount<=0){
-
-message.style.color="#c00000";
-message.innerText="Please enter receiver and amount.";
-return;
-
+function billPayment(){
+  const amount=Number(document.getElementById('billamount').value);
+  if(!Number.isFinite(amount)||amount<=0){alert('Enter a valid amount');return}
+  if(amount>balance){alert('Insufficient practice balance');return}
+  balance-=amount;
+  const t=addTransaction('Bill Payment',amount,{name:document.getElementById('billtype').value,account:document.getElementById('reference').value,bank:'Practice'});
+  showReceipt(t);
 }
-
-if(amount>currentBalance){
-
-message.style.color="#c00000";
-message.innerText="Insufficient demo balance.";
-return;
-
+function showReceipt(t){
+  document.getElementById('receiptcontent').innerHTML=
+  '<b>DIGITAL BANK SAM</b><hr><p>Status: Practice record</p>'+
+  '<p>Transaction ID: #'+t.id+'</p><p>Date & Time: '+t.date+'</p>'+
+  '<p>Transaction Type: '+t.type+'</p>'+
+  '<p>Sent To: '+escapeText(t.details.name)+'</p>'+
+  '<p>Account / Reference: '+escapeText(t.details.account)+'</p>'+
+  '<p>Bank: '+escapeText(t.details.bank)+'</p>'+
+  '<p>Amount: PKR '+t.amount.toLocaleString('en-PK',{minimumFractionDigits:2})+'</p>'+
+  '<p>Fee: PKR 0.00</p><b>Total: PKR '+t.amount.toLocaleString('en-PK',{minimumFractionDigits:2})+'</b>';
+  showPage('receipt');
 }
-
-currentBalance-=amount;
-
-document.getElementById("balance").innerText=
-"PKR "+currentBalance.toLocaleString();
-
-message.style.color="green";
-message.innerText=
-"Demo transfer successful to "+receiver+" — PKR "+amount.toLocaleString();
-
-const newTransaction=document.createElement("div");
-
-newTransaction.className="transaction";
-
-newTransaction.innerHTML=
-"<span>"+receiver+"</span>"+
-"<span class='debit'>- PKR "+
-amount.toLocaleString()+"</span>";
-
-document.getElementById("newTransactions")
-.prepend(newTransaction);
-
-document.getElementById("receiver").value="";
-document.getElementById("amount").value="";
-
+function escapeText(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function renderHistory(){
+  document.getElementById('historylist').innerHTML=transactions.length?transactions.map(t=>
+    '<div class="entry"><b>'+t.type+'</b><br>PKR '+t.amount.toLocaleString()+'<br><span class="small">'+t.date+'</span></div>'
+  ).join(''):'No transactions yet.';
 }
-
-function scanQR(){
-
-document.getElementById("qrResult").innerText=
-"Demo QR scanned successfully. No real payment was made.";
-
+function readQR(){
+  const text=document.getElementById('qrtext').value.trim();
+  if(!text){alert('Paste QR details first');return}
+  document.getElementById('account').value=text;
+  showPage('transfer');
 }
-
+updateBalance();
 </script>
-
 </body>
 </html>
